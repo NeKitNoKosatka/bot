@@ -76,7 +76,6 @@ def get_time():
     return time
 
 def start_mailing():
-    #mes = "".join()
     message_txt = message()
     print("message: ", message_txt)
     users = parsing_system.enter_data()
@@ -92,33 +91,21 @@ def start_mailing():
 
     flag = True
     counter = [0 for _ in range(len(Bots))]
-    # counter_2 = [0 for _ in range(len(Bots))]
-    #len(users) != user_number
 
     while flag:
         bot_number = 1
         for bot in Bots:
             counter[bot_number - 1] = 0
-            # counter_2[bot_number - 1] = 0
-            # for i in range(20):
             while counter[bot_number-1] != 2:
                 if user_number != len(users):
                     error_num = bot.send_message(users[user_number], message_txt)
-                    #print(parsing_system.is_can_write_private_message(users[user_number]))
-                    # message_access = parsing_system.is_can_write_private_message(users[user_number])
                     if error_num is None:
                         counter[bot_number - 1] += 1
-                        # counter[bot_number - 1] -= 1  #
-                        #print("counter = ", counter)
                         print("bot_number = ", bot_number)
                         pass
                     else:
-                        #counter += 1
                         print("error: " + error_num) # 5 - ошибка в токене, 9 - у пользователя закрыты сообщения, 7 - неправильное id
                         # прочитаем файл построчно
-                        # counter[bot_number-1] += 1  #
-                        # print("counter = ", counter)
-                        # print("bot_number = ", bot_number)
                         with open('users_id.txt', 'r') as f:
                             lines = f.readlines()
 
@@ -141,18 +128,10 @@ def start_mailing():
                 else:
                     print("Все пользователи получили рассылку\n")
                     flag = False
-
-            #user_number += 20
-            # print("\nБот №", bot_number,
-            #       "\nИсчерпан лимит сообщений в день\nРассылка приостановлена\nРежим ожидания(осталось): 24 часа\nНачало режима ожидания: ",
-            #       now.strftime("%H:%M %d-%m-%Y"))
-            # print("Пользователей для рассылки осталось: ", len(users) - user_number, "\n")
             bot_number += 1
 
         if flag and user_number != len(users):
             print("Все боты в режиме ожидания")
-            # print("Рассылка оставшимся пользователям займёт: ", (len(users) - user_number) / len(Bots) // 3600, " часов, ",
-            #       (len(users) - user_number) / len(Bots) % 3600 // 60, " минут")
             time.sleep(43200) #43200
             print("\nРежим ожидания(осталось): 12 часов\n")
             time.sleep(43200)
@@ -162,83 +141,3 @@ def start_mailing():
 
 
 config = configparser.ConfigParser()
-
-
-
-
-
-# if __name__ == '__main__':
-#
-#     message = "".join((message()))
-#     if message == "":
-#         print("Не указано сообщение для рассылки\nВведите сообщение для рассылки в файл message.txt\n")
-#         sys.exit()
-#
-#     choise = parsing_system.console_interface()  # запуск консольного интерфейса
-#     users = parsing_system.enter_data()  # чтение id'шников из файла users.txt
-#
-#     print("Всего ботов доступно: ", len(get_all_tokens())-1, "\n")
-#     while choise != "да" or choise != "нет":
-#         print("Добавить новых ботов? (да/нет)")
-#         choise = input("Введите ответ: ")
-#         if choise == "да":
-#             bot_nums = int(input("Введите число новых ботов: "))
-#             add_bots(bot_nums)
-#             choise = ""
-#             break
-#         elif choise == "нет":
-#             choise = ""
-#             break
-#         else:
-#             print("Неверный ввод\n")
-#
-#     Bots = get_bots()
-#     now = datetime.datetime.now() # текущее время
-#
-#     print("Пользователей для рассылки: ", len(users))
-#     print("Рассылка всем пользователям займёт: ", len(users) / len(Bots) // 3600 + (len(users) // 20) * 24, " часов, ", len(users) / len(Bots) % 3600 // 60, " минут\n")
-#
-#     choise = ""
-#     while choise != "да" or choise != "нет":
-#         print("Начать рассылку? (да/нет)")
-#         choise = input("Введите ответ: ")
-#         if choise == "да":
-#             break
-#         elif choise == "нет":
-#             sys.exit()
-#         else:
-#             print("Неверный ввод\n")
-#
-#     '''
-#     У Вконтакте ограничение на отправку сообщений незнакомым людям (которых нет в друзьях):
-#     20 новых диалогов в день.
-#
-#     Каждые 24 часа бот посылает сообщение 20-ти людям из списка id'шников с интервалом в секунду.
-#     '''
-#
-#     user_number = 0
-#
-#     while len(users) != user_number:
-#         bot_number = 1
-#         for bot in Bots:
-#             try:
-#                 for i in range(user_number, user_number+20):
-#                     bot.send_message(users[i], message)
-#                     user_number += 1
-#                     time.sleep(1)
-#
-#                 print("\nБот №", bot_number, "\nИсчерпан лимит сообщений в день\nРассылка приостановлена\nРежим ожидания(осталось): 24 часа\nНачало режима ожидания: ", now.strftime("%H:%M %d-%m-%Y"))
-#                 print("Пользователей для рассылки осталось: ", len(users)-user_number, "\n")
-#                 bot_number += 1
-#
-#             except IndexError:
-#                 print("Все пользователи получили рассылку\n")
-#                 input()
-#                 sys.exit()
-#
-#         print("Все боты в режиме ожидания")
-#         print("Рассылка оставшимся пользователям займёт: ", (len(users) - user_number) / len(Bots) // 3600, " часов, ", (len(users) - user_number) / len(Bots) % 3600 // 60, " минут")
-#         time.sleep(43200)
-#         print("\nРежим ожидания(осталось): 12 часов\n")
-#         time.sleep(43200)
-#         print("Рассылка возобновлена\n")
