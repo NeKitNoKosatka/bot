@@ -30,8 +30,6 @@ def enter_data(filename="users_id.txt"):  # функция вывода базы
         # записываем каждую строчку файла в список,
         # убирая "vk.com/id" и "\n" с помощью среза.
         for line in file:
-            # vk_user_id = line[9:len(line) - 1]
-            # if is_can_write_private_message(vk_user_id) == 1:
             b.append(line[9:len(line) - 1])
     return b
 
@@ -110,12 +108,10 @@ def union_members(group1, group2): # функция объединения дв�
     return list(union)
 
 
-#if __name__ == "__main__":
 path = os.path.join(os.path.dirname(__file__), 'db.config')
 load_dotenv(path)
 token = os.getenv("ACCESS_TOKEN")  # Сервисный ключ доступа
 session = vk.Session(access_token=token)  # Авторизация
 vk_api = vk.API(session)
 
-    #console_interface()
 
